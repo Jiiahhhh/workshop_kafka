@@ -1,0 +1,25 @@
+body {
+    font-family: sans-serif;
+    margin: 2em;
+}
+.menu-table {
+    border-collapse: collapse;
+    width: 50%;
+}
+.menu-table th, .menu-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+.menu-table th {
+    background-color: #F2F2F2;
+}
+.quantity-input {
+    width: 50px;
+}
+.message {
+    padding: 1em;
+    background-color: #e6ffed;
+    border: 1px solid #34a853;
+    margin-bottom: 1em;
+}

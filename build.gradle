@@ -60,6 +60,7 @@ dependencies {
     implementation "org.springframework.boot:spring-boot-starter-jetty"
     implementation "org.springframework.boot:spring-boot-starter-logging"
     implementation "org.springframework.boot:spring-boot-starter-validation"
+    implementation "org.apache.kafka:kafka-clients:4.0.0"
     compileOnly "io.micronaut:micronaut-inject-groovy"
     console "org.grails:grails-console"
     runtimeOnly "com.bertramlabs.plugins:asset-pipeline-grails:4.5.1"

@@ -12,7 +12,15 @@
         </encoder>
     </appender>
 
+    <logger name="org.hibernate.orm.deprecation" level="error"/>
+
+    <logger name="com.ilal" level="debug"/>
+
     <root level="error">
+        <appender-ref ref="STDOUT" />
+    </root>
+
+    <root level="info">
         <appender-ref ref="STDOUT" />
     </root>
 
