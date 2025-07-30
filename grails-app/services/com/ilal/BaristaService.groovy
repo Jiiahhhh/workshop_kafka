@@ -21,23 +21,33 @@ class BaristaService {
         Thread.start {
             try {
                 Properties props = new Properties()
+                // Kafka server address in Docker
                 props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092")
                 // IMPORTANT: ID group for baristas
                 props.put(ConsumerConfig.GROUP_ID_CONFIG, "barista-group")
+                // Convert data 'key' from byte to String when received message.
                 props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringDeserializer")
+                // Convert data 'value' from byte to String
                 props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringDeserializer")
+                // If it is new consumer group, start read from the first message in the topic.
                 props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest")
 
                 KafkaConsumer<String, String> consumer = new KafkaConsumer<>(props)
+                // Told consumer to subscribe (listen) topic 'new-orders'
                 consumer.subscribe(["new-orders"])
                 log.info("BaristaService is now listening to 'new-orders' topic.")
 
                 while (true) {
+                    // Asking for message from Kafka. It will wait till 1 second.
+                    // If there a message, 'records' will filling the list of messages. If not, 'records' will empty.
                     def records = consumer.poll(Duration.ofMillis(1000))
+                    // Loop to every received message. (Poll() can received more than a message)
                     for (def record in records) {
+                        // Convert message (record.value()) from String JSON to Groovy Object (Map)
                         def data = new JsonSlurper().parseText(record.value())
                         log.info("Barista received order #${data.orderId}")
 
+                        // Filter only take 'DRINK'
                         def drinkInOrder = data.items.findAll { it.category == 'DRINK' }
 
                         // loop for every item in order
@@ -62,7 +72,7 @@ class BaristaService {
         }
     }
 
-//    @Transactional
+    // Interact with database.
     void updateItemStatus(Long orderId, Long menuItemId) {
         Order.withTransaction {
             Order order

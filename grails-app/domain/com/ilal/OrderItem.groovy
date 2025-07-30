@@ -3,6 +3,8 @@ package com.ilal
 class OrderItem {
     int quantity
     ItemStatus status = ItemStatus.PENDING
+
+    // many to one (One 'OrderItem' belongs to one 'Order' refers to One 'MenuItem')
     static belongsTo = [order: Order, menuItem: MenuItem]
 
     static constraints = {
@@ -10,7 +12,7 @@ class OrderItem {
     }
 
     enum ItemStatus {
-        PENDING,
-        COMPLETED
+        PENDING,    // Waiting or in progress
+        COMPLETED   // Item has been completed
     }
 }
